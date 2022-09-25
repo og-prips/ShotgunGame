@@ -1,33 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShotgunGame
+﻿namespace ShotgunGame
 {
     internal class Game
     {
         public Player Human { get; set; }
         public Player Computer { get; set; }
-        Player player = new Player();
 
         public void PlayGame()
         {
             GenerateComputerChoice();
-            CalculateShots(player.Choice, Computer.Choice);
+            CalculateShots(Human.Choice, Computer.Choice);
         }
 
         public void ResetGame()
         {
             ResetShots();
-            Human.Win = false;
-            Computer.Win = false;
         }
 
         public void ExitGame()
         {
-
+            // write to files
         }
 
         private void ResetShots()
@@ -40,13 +31,13 @@ namespace ShotgunGame
         {
             Random random = new Random();
             
-            if (Computer.ShotgunAvailable)
+            if (Computer.ShotgunAvailable())
             {
-                ResetShots();
+                Computer.Choice = Player.PlayerChoice.Shotgun;
             }
             else
             {
-                Computer.Choice = (PlayerChoice)random.Next(0, 3);
+                Computer.Choice = (Player.PlayerChoice)random.Next(0, 3);
             }
         }
 
@@ -54,24 +45,72 @@ namespace ShotgunGame
         {
             switch (Human.Choice)
             {
-                case PlayerChoice.Shoot:
+                case Player.PlayerChoice.Shoot:
 
-                    if (Computer.Choice == PlayerChoice.Shoot)
+                    if (Computer.Choice == Player.PlayerChoice.Shoot)
                     {
                         Human.Shots -= 1;
                         Computer.Shots -= 1;
                     }
-                    else if (Computer.Choice == PlayerChoice.Reload)
+                    else if (Computer.Choice == Player.PlayerChoice.Reload)
                     {
-                        Human.Win = true;
                         Human.Score += 1;
                     }
-                    else if (Computer.Choice == PlayerChoice.Block)
+                    else if (Computer.Choice == Player.PlayerChoice.Block)
                     {
                         Human.Shots -= 1;
                     }
                     break;
+
+                case Player.PlayerChoice.Reload:
+
+                    if (Computer.Choice == Player.PlayerChoice.Shoot)
+                    {
+                        Computer.Score += 1;
+                    }
+                    else if (Computer.Choice == Player.PlayerChoice.Reload)
+                    {
+                        Human.Shots += 1;
+                        Computer.Shots += 1;
+                    }
+                    else if (Computer.Choice == Player.PlayerChoice.Block)
+                    {
+                        Human.Shots += 1;
+                    }
+                    break;
+
+                case Player.PlayerChoice.Block:
+
+                    if (Computer.Choice == Player.PlayerChoice.Shoot)
+                    {
+                        Computer.Shots -= 1;
+                    }
+                    else if (Computer.Choice == Player.PlayerChoice.Reload)
+                    {
+                        Computer.Shots += 1;
+                    }
+                    else if (Computer.Choice == Player.PlayerChoice.Block)
+                    {
+                        break;
+                    }
+                    break;
             }
+        }
+
+        public Player? CheckForWinner(Player playerOne, Player playerTwo)
+        {
+            if (playerOne.Choice == Player.PlayerChoice.Shoot && playerTwo.Choice == Player.PlayerChoice.Reload ||
+                playerOne.Choice == Player.PlayerChoice.Shotgun && playerTwo.Choice != Player.PlayerChoice.Shotgun)
+            {
+                return playerOne;
+            }
+            else if (playerTwo.Choice == Player.PlayerChoice.Shoot && playerOne.Choice == Player.PlayerChoice.Reload || 
+                     playerTwo.Choice == Player.PlayerChoice.Shotgun && playerOne.Choice != Player.PlayerChoice.Shotgun)
+            {
+                return playerTwo;
+            }
+
+            return null;
         }
     }
 }

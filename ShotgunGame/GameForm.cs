@@ -1,13 +1,4 @@
-﻿using Microsoft.VisualBasic.Devices;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 
 namespace ShotgunGame
 {
@@ -24,43 +15,101 @@ namespace ShotgunGame
 
         private void btnShoot_Click(object sender, EventArgs e)
         {
-            game.Human.Choice = PlayerChoice.Shoot;
+            game.Human.Choice = Player.PlayerChoice.Shoot;
         }
 
         private void btnReload_Click(object sender, EventArgs e)
         {
-            game.Human.Choice = (PlayerChoice)1;
+            game.Human.Choice = Player.PlayerChoice.Reload;
         }
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
-            game.Human.Choice = PlayerChoice.Block;
+            game.Human.Choice = Player.PlayerChoice.Block;
         }
 
         private void btnShotgun_Click(object sender, EventArgs e)
         {
-            game.Human.Choice = PlayerChoice.Shotgun;
+            game.Human.Choice = Player.PlayerChoice.Shotgun;
         }
 
         private void anyButton_MouseClick(object sender, MouseEventArgs e)
         {
-            if (game.Human.Win)
+            game.PlayGame();
+
+            if (game.Human.ShotgunAvailable() && !game.Computer.ShotgunAvailable())
             {
-                game.ResetGame();
+                btnShotgun.Visible = true;
+                btnShoot.Enabled = false;
+                btnReload.Enabled = false;
+                btnBlock.Enabled = false;
+            }
+            else if (game.Human.ShotgunAvailable() && game.Computer.ShotgunAvailable())
+            {
+                FastDraw();
+            }
+
+            Debug.Print($"----- Human choice: {game.Human.Choice} Computer choice: {game.Computer.Choice} -----");
+
+            if (game.CheckForWinner(game.Human, game.Computer) == game.Human)
+            {
+                Debug.Print("----- Human WIN");
                 lblHumanScore.Text = $"Your score: {game.Human.Score.ToString()}";
-            }
-            else if (game.Computer.Win)
-            {
                 game.ResetGame();
-                lblComputerScore.Text = $"Computer score: {game.Computer.Score.ToString()}";
+                btnShotgun.Visible = false;
+                btnShoot.Enabled = true;
+                btnReload.Enabled = true;
+                btnBlock.Enabled = true;
             }
-            else
+            else if (game.CheckForWinner(game.Human, game.Computer) == game.Computer)
             {
-                game.PlayGame();
+                Debug.Print("----- Computer WIN");
+                lblComputerScore.Text = $"Computer score: {game.Computer.Score.ToString()}";
+                game.ResetGame();
+                btnShotgun.Visible = false;
+                btnShoot.Enabled = true;
+                btnReload.Enabled = true;
+                btnBlock.Enabled = true;
             }
 
             lblPlayerShots.Text = game.Human.Shots.ToString();
             lblComputerShots.Text = game.Computer.Shots.ToString();
+
+            Debug.Print($"----- Human shots: {game.Human.Shots} ///// Computer shots: {game.Computer.Shots}");
+        }
+
+        private void FastDraw()
+        {
+
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            game.ExitGame();
+        }
+
+        private void anyGameButton_MouseEnter(object sender, EventArgs e)
+        {
+            ExchangeForeBackColor(sender as Button);
+        }
+
+        private void btnShoot_MouseLeave(object sender, EventArgs e)
+        {
+            ExchangeForeBackColor(sender as Button);
+        }
+
+        private void ExchangeForeBackColor(Control control)
+        {
+            var initialBackColor = control.BackColor;
+            var initialForeColor = control.ForeColor;
+            control.BackColor = initialForeColor;
+            control.ForeColor = initialBackColor;
+
         }
     }
 }
