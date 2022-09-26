@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.Drawing.Design;
+using System.Drawing.Text;
 
 namespace ShotgunGame
 {
@@ -14,20 +16,55 @@ namespace ShotgunGame
             game.Computer = new Player();
         }
 
+        private void ExchangeForeBackColor(Control control)
+        {
+            var initialBackColor = control.BackColor;
+            var initialForeColor = control.ForeColor;
+            control.BackColor = initialForeColor;
+            control.ForeColor = initialBackColor;
+        }
+
         private void GameOver(Player winner)
         {
+            winner.Score += 1;
 
+            if (winner == game.Human)
+            {
+                SetLabel(lblGameResult, "YOU WIN", true, Color.LightGreen);
+            }
+            else
+            {
+                SetLabel(lblGameResult, "YOU LOSE", true, Color.Red);
+            }
+
+            btnPlayAgain.Visible = true;
+
+            btnShotgun.Visible = false;
+            btnShoot.Visible = false;
+            btnReload.Visible = false;
+            btnBlock.Visible = false;
+
+            game.ResetShots();
+        }
+
+        private void QuickDraw()
+        {
+
+        }
+
+        private void ResetForm()
+        {
+            btnShotgun.Visible = false;
+            btnShoot.Visible = true;
+            btnReload.Visible = true;
+            btnBlock.Visible = true;
+            lblActionsMessage.Text = String.Empty;
+            lblShotsMessage.Text = string.Empty;
         }
 
         public static void SetShotsMessage(int humanShotDifference, int computerShotDifference)
         {
-            _shotsMessage = $"You get: {humanShotDifference}    Computer gets: {computerShotDifference}";
-        }
-
-        private void SetLabel(Label label, string text, bool visible)
-        {
-            label.Text = text;
-            label.Visible = visible;
+            _shotsMessage = $"You get: {humanShotDifference} shot   Computer gets: {computerShotDifference} shot";
         }
 
         private void SetLabel(Label label, string text, bool visible, Color foreColor)
@@ -36,20 +73,26 @@ namespace ShotgunGame
             label.Visible = visible;
             label.ForeColor = foreColor;
         }
-
+        
         private void btnShoot_Click(object sender, EventArgs e)
         {
             game.Human.Choice = Player.PlayerChoice.Shoot;
+            imgHumanWeapon.Image = Properties.Resources.shotgun;
+            imgHumanFragments.Image = Properties.Resources.ammunition;
         }
 
         private void btnReload_Click(object sender, EventArgs e)
         {
             game.Human.Choice = Player.PlayerChoice.Reload;
+            imgHumanWeapon.Image = Properties.Resources.reload;
+            imgHumanFragments.Image = null;
         }
 
         private void btnBlock_Click(object sender, EventArgs e)
         {
             game.Human.Choice = Player.PlayerChoice.Block;
+            imgHumanWeapon.Image = Properties.Resources.shield;
+            imgHumanFragments.Image = null;
         }
 
         private void btnShotgun_Click(object sender, EventArgs e)
@@ -57,20 +100,35 @@ namespace ShotgunGame
             game.Human.Choice = Player.PlayerChoice.Shotgun;
         }
 
-        private void anyButton_MouseClick(object sender, MouseEventArgs e)
+        private async void anyButton_MouseClick(object sender, MouseEventArgs e)
         {
             var previousHumanShots = game.Human.Shots;
             var previousComputerShots = game.Computer.Shots;
+            lblGameResult.Visible = false;
 
             game.PlayGame();
-            lblActionsMessage.Text = $"You choose: {game.Human.Choice.ToString().ToUpper()}   Computer chooses: {game.Computer.Choice.ToString().ToUpper()}";
+
+            lblActionsMessage.Text = $"You choose: {game.Human.Choice.ToString().ToUpper()}   ";
+
+            btnShoot.Enabled = false;
+            btnReload.Enabled = false;
+            btnBlock.Enabled = false;
+
+            await Task.Delay(750);
+
+            btnShoot.Enabled = true;
+            btnReload.Enabled = true;
+            btnBlock.Enabled = true;
+
+            lblActionsMessage.Text += $"Computer chooses: {game.Computer.Choice.ToString().ToUpper()}";
+            lblShotsMessage.Text = _shotsMessage;
 
             if (game.Human.ShotgunAvailable() && !game.Computer.ShotgunAvailable())
             {
                 btnShotgun.Visible = true;
-                btnShoot.Enabled = false;
-                btnReload.Enabled = false;
-                btnBlock.Enabled = false;
+                btnShoot.Visible = false;
+                btnReload.Visible = false;
+                btnBlock.Visible = false;
             }
             else if (game.Human.ShotgunAvailable() && game.Computer.ShotgunAvailable())
             {
@@ -82,49 +140,20 @@ namespace ShotgunGame
             if (game.CheckForWinner(game.Human, game.Computer) == game.Human)
             {
                 Debug.Print("----- Human WIN -----");
-                game.Human.Score += 1;
-                
-                SetLabel(lblGameResult, "YOU WIN", true);
 
-                game.ResetGame();
-
-                btnShotgun.Visible = false;
-                btnShoot.Enabled = true;
-                btnReload.Enabled = true;
-                btnBlock.Enabled = true;
-                lblShotsMessage.Text = string.Empty;
+                GameOver(game.Human);
             }
             else if (game.CheckForWinner(game.Human, game.Computer) == game.Computer)
             {
                 Debug.Print("----- Computer WIN -----");
-                game.Computer.Score += 1;
-                
-                SetLabel(lblGameResult, "YOU LOSE", true, Color.Red);
 
-                game.ResetGame();
-
-                btnShotgun.Visible = false;
-                btnShoot.Enabled = true;
-                btnReload.Enabled = true;
-                btnBlock.Enabled = true;
-                lblShotsMessage.Text = string.Empty;
-            }
-            else
-            {
-                lblShotsMessage.Text = _shotsMessage;
+                GameOver(game.Computer);
             }
 
             lblHumanScore.Text = $"Your score: {game.Human.Score.ToString()}";
             lblComputerScore.Text = $"Computer score: {game.Computer.Score.ToString()}";
             lblPlayerShots.Text = game.Human.Shots.ToString();
             lblComputerShots.Text = game.Computer.Shots.ToString();
-
-            Debug.Print($"----- Human shots: {game.Human.Shots} ///// Computer shots: {game.Computer.Shots} -----");
-        }
-
-        private void QuickDraw()
-        {
-
         }
 
         private void btnExit_Click(object sender, EventArgs e)
@@ -139,20 +168,19 @@ namespace ShotgunGame
 
         private void anyGameButton_MouseEnter(object sender, EventArgs e)
         {
-            ExchangeForeBackColor(sender as Button);
+            ExchangeForeBackColor((Control)sender);
         }
 
         private void btnShoot_MouseLeave(object sender, EventArgs e)
         {
-            ExchangeForeBackColor(sender as Button);
+            ExchangeForeBackColor((Control)sender);
         }
 
-        private void ExchangeForeBackColor(Control control)
+        private void btnPlayAgain_Click(object sender, EventArgs e)
         {
-            var initialBackColor = control.BackColor;
-            var initialForeColor = control.ForeColor;
-            control.BackColor = initialForeColor;
-            control.ForeColor = initialBackColor;
+            btnPlayAgain.Visible = false;
+
+            ResetForm();
         }
     }
 }

@@ -11,17 +11,12 @@
             CalculateShots(Human.Choice, Computer.Choice);
         }
 
-        public void ResetGame()
-        {
-            ResetShots();
-        }
-
         public void ExitGame()
         {
             // write to files
         }
 
-        private void ResetShots()
+        public void ResetShots()
         {
             Human.Shots = 0;
             Computer.Shots = 0;
@@ -43,6 +38,7 @@
 
         private void CalculateShots(Enum playerChoice, Enum computerChoice)
         {
+            
             switch (Human.Choice)
             {
                 case Player.PlayerChoice.Shoot:
