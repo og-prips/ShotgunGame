@@ -6,16 +6,16 @@
 
         public enum PlayerChoice
         {
-            Shoot = 0,
-            Reload = 1,
-            Block = 2,
-            Shotgun = 3
+            Shoot,
+            Reload,
+            Block,
+            Shotgun
         }
 
         public PlayerChoice Choice { get; set; }
         public int Score { get; set; } = 0;
         public string Name { get; set; } = String.Empty;
-
+        
         public int Shots
         {
             get

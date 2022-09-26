@@ -51,14 +51,17 @@
                     {
                         Human.Shots -= 1;
                         Computer.Shots -= 1;
+                        GameForm.SetShotsMessage(-1, -1);
                     }
                     else if (Computer.Choice == Player.PlayerChoice.Reload)
                     {
-                        Human.Score += 1;
+                        Human.Shots += 1;
+                        GameForm.SetShotsMessage(1, 0);
                     }
                     else if (Computer.Choice == Player.PlayerChoice.Block)
                     {
                         Human.Shots -= 1;
+                        GameForm.SetShotsMessage(-1, 0);
                     }
                     break;
 
@@ -66,16 +69,19 @@
 
                     if (Computer.Choice == Player.PlayerChoice.Shoot)
                     {
-                        Computer.Score += 1;
+                        Computer.Shots += 1;
+                        GameForm.SetShotsMessage(1, 0);
                     }
                     else if (Computer.Choice == Player.PlayerChoice.Reload)
                     {
                         Human.Shots += 1;
                         Computer.Shots += 1;
+                        GameForm.SetShotsMessage(1, 1);
                     }
                     else if (Computer.Choice == Player.PlayerChoice.Block)
                     {
                         Human.Shots += 1;
+                        GameForm.SetShotsMessage(1, 0);
                     }
                     break;
 
@@ -84,13 +90,16 @@
                     if (Computer.Choice == Player.PlayerChoice.Shoot)
                     {
                         Computer.Shots -= 1;
+                        GameForm.SetShotsMessage(-1, 0);
                     }
                     else if (Computer.Choice == Player.PlayerChoice.Reload)
                     {
                         Computer.Shots += 1;
+                        GameForm.SetShotsMessage(1, 0);
                     }
                     else if (Computer.Choice == Player.PlayerChoice.Block)
                     {
+                        GameForm.SetShotsMessage(0, 0);
                         break;
                     }
                     break;
