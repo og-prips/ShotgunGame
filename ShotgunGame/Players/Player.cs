@@ -1,10 +1,10 @@
 ﻿namespace ShotgunGame
 {
-    internal class Player
+    public class Player
     {
         private int _shots;
 
-        public enum PlayerChoice
+        public enum Action
         {
             Shoot,
             Reload,
@@ -12,10 +12,10 @@
             Shotgun
         }
 
-        public PlayerChoice Choice { get; set; }
+        public Action Choice { get; set; }
         public int Score { get; set; } = 0;
-        public string Name { get; set; } = String.Empty;
-        
+        //public string Name { get; set; } = String.Empty;
+
         public int Shots
         {
             get

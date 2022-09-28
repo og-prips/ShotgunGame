@@ -37,9 +37,9 @@
             this.lblHumanScore = new System.Windows.Forms.Label();
             this.lblComputerScore = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.Button();
-            this.lblActionsMessage = new System.Windows.Forms.Label();
+            this.lblHumanAction = new System.Windows.Forms.Label();
             this.lblShotsMessage = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.progressBarQuickDraw = new System.Windows.Forms.ProgressBar();
             this.lblGameResult = new System.Windows.Forms.Label();
             this.btnPlayAgain = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -48,6 +48,7 @@
             this.imgComputerWeapon = new System.Windows.Forms.PictureBox();
             this.imgHumanFragments = new System.Windows.Forms.PictureBox();
             this.imgComputerFragments = new System.Windows.Forms.PictureBox();
+            this.lblComputerAction = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgHumanWeapon)).BeginInit();
@@ -63,9 +64,9 @@
             this.btnReload.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReload.Font = new System.Drawing.Font("Black Ops One", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnReload.ForeColor = System.Drawing.Color.Yellow;
-            this.btnReload.Location = new System.Drawing.Point(534, 65);
+            this.btnReload.Location = new System.Drawing.Point(492, 82);
             this.btnReload.Name = "btnReload";
-            this.btnReload.Size = new System.Drawing.Size(116, 41);
+            this.btnReload.Size = new System.Drawing.Size(202, 64);
             this.btnReload.TabIndex = 0;
             this.btnReload.Text = "RELOAD";
             this.btnReload.UseVisualStyleBackColor = false;
@@ -81,9 +82,9 @@
             this.btnBlock.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBlock.Font = new System.Drawing.Font("Black Ops One", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnBlock.ForeColor = System.Drawing.Color.Cyan;
-            this.btnBlock.Location = new System.Drawing.Point(534, 118);
+            this.btnBlock.Location = new System.Drawing.Point(492, 156);
             this.btnBlock.Name = "btnBlock";
-            this.btnBlock.Size = new System.Drawing.Size(116, 41);
+            this.btnBlock.Size = new System.Drawing.Size(202, 64);
             this.btnBlock.TabIndex = 1;
             this.btnBlock.Text = "BLOCK";
             this.btnBlock.UseVisualStyleBackColor = false;
@@ -95,13 +96,14 @@
             // btnShoot
             // 
             this.btnShoot.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.btnShoot.Enabled = false;
             this.btnShoot.FlatAppearance.BorderColor = System.Drawing.Color.Red;
             this.btnShoot.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShoot.Font = new System.Drawing.Font("Black Ops One", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.btnShoot.ForeColor = System.Drawing.Color.Red;
-            this.btnShoot.Location = new System.Drawing.Point(534, 12);
+            this.btnShoot.Location = new System.Drawing.Point(492, 12);
             this.btnShoot.Name = "btnShoot";
-            this.btnShoot.Size = new System.Drawing.Size(116, 41);
+            this.btnShoot.Size = new System.Drawing.Size(202, 64);
             this.btnShoot.TabIndex = 2;
             this.btnShoot.Text = "SHOOT";
             this.btnShoot.UseVisualStyleBackColor = false;
@@ -116,9 +118,9 @@
             this.btnShotgun.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
             this.btnShotgun.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShotgun.Font = new System.Drawing.Font("Impact", 24F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Italic))), System.Drawing.GraphicsUnit.Point);
-            this.btnShotgun.Location = new System.Drawing.Point(502, 52);
+            this.btnShotgun.Location = new System.Drawing.Point(492, 83);
             this.btnShotgun.Name = "btnShotgun";
-            this.btnShotgun.Size = new System.Drawing.Size(179, 67);
+            this.btnShotgun.Size = new System.Drawing.Size(202, 63);
             this.btnShotgun.TabIndex = 3;
             this.btnShotgun.Text = "SHOTGUN";
             this.btnShotgun.UseVisualStyleBackColor = false;
@@ -174,7 +176,7 @@
             // 
             // btnExit
             // 
-            this.btnExit.Location = new System.Drawing.Point(564, 592);
+            this.btnExit.Location = new System.Drawing.Point(758, 439);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(75, 23);
             this.btnExit.TabIndex = 8;
@@ -182,16 +184,16 @@
             this.btnExit.UseVisualStyleBackColor = true;
             this.btnExit.Click += new System.EventHandler(this.btnExit_Click);
             // 
-            // lblActionsMessage
+            // lblHumanAction
             // 
-            this.lblActionsMessage.AutoSize = true;
-            this.lblActionsMessage.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
-            this.lblActionsMessage.ForeColor = System.Drawing.Color.White;
-            this.lblActionsMessage.Location = new System.Drawing.Point(333, 306);
-            this.lblActionsMessage.Name = "lblActionsMessage";
-            this.lblActionsMessage.Size = new System.Drawing.Size(0, 28);
-            this.lblActionsMessage.TabIndex = 9;
-            this.lblActionsMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblHumanAction.AutoSize = true;
+            this.lblHumanAction.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblHumanAction.ForeColor = System.Drawing.Color.White;
+            this.lblHumanAction.Location = new System.Drawing.Point(415, 306);
+            this.lblHumanAction.Name = "lblHumanAction";
+            this.lblHumanAction.Size = new System.Drawing.Size(0, 28);
+            this.lblHumanAction.TabIndex = 9;
+            this.lblHumanAction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblShotsMessage
             // 
@@ -204,13 +206,16 @@
             this.lblShotsMessage.TabIndex = 10;
             this.lblShotsMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // progressBar1
+            // progressBarQuickDraw
             // 
-            this.progressBar1.Location = new System.Drawing.Point(283, 502);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(109, 22);
-            this.progressBar1.TabIndex = 11;
+            this.progressBarQuickDraw.BackColor = System.Drawing.Color.Red;
+            this.progressBarQuickDraw.ForeColor = System.Drawing.Color.IndianRed;
+            this.progressBarQuickDraw.Location = new System.Drawing.Point(290, 336);
+            this.progressBarQuickDraw.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.progressBarQuickDraw.Name = "progressBarQuickDraw";
+            this.progressBarQuickDraw.Size = new System.Drawing.Size(575, 150);
+            this.progressBarQuickDraw.TabIndex = 11;
+            this.progressBarQuickDraw.Visible = false;
             // 
             // lblGameResult
             // 
@@ -218,7 +223,7 @@
             this.lblGameResult.BackColor = System.Drawing.Color.Transparent;
             this.lblGameResult.Font = new System.Drawing.Font("Black Ops One", 50.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.lblGameResult.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(255)))), ((int)(((byte)(192)))));
-            this.lblGameResult.Location = new System.Drawing.Point(436, 218);
+            this.lblGameResult.Location = new System.Drawing.Point(421, 223);
             this.lblGameResult.Name = "lblGameResult";
             this.lblGameResult.Size = new System.Drawing.Size(333, 84);
             this.lblGameResult.TabIndex = 12;
@@ -230,7 +235,7 @@
             this.btnPlayAgain.BackColor = System.Drawing.Color.White;
             this.btnPlayAgain.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlayAgain.Font = new System.Drawing.Font("Black Ops One", 15.75F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.btnPlayAgain.Location = new System.Drawing.Point(502, 52);
+            this.btnPlayAgain.Location = new System.Drawing.Point(504, 81);
             this.btnPlayAgain.Name = "btnPlayAgain";
             this.btnPlayAgain.Size = new System.Drawing.Size(179, 67);
             this.btnPlayAgain.TabIndex = 13;
@@ -275,7 +280,7 @@
             // 
             // imgHumanFragments
             // 
-            this.imgHumanFragments.Location = new System.Drawing.Point(237, 306);
+            this.imgHumanFragments.Location = new System.Drawing.Point(218, 306);
             this.imgHumanFragments.Name = "imgHumanFragments";
             this.imgHumanFragments.Size = new System.Drawing.Size(108, 97);
             this.imgHumanFragments.TabIndex = 18;
@@ -283,18 +288,30 @@
             // 
             // imgComputerFragments
             // 
-            this.imgComputerFragments.Location = new System.Drawing.Point(822, 306);
+            this.imgComputerFragments.Location = new System.Drawing.Point(839, 306);
             this.imgComputerFragments.Name = "imgComputerFragments";
             this.imgComputerFragments.Size = new System.Drawing.Size(108, 97);
             this.imgComputerFragments.TabIndex = 19;
             this.imgComputerFragments.TabStop = false;
+            // 
+            // lblComputerAction
+            // 
+            this.lblComputerAction.AutoSize = true;
+            this.lblComputerAction.Font = new System.Drawing.Font("Consolas", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.lblComputerAction.ForeColor = System.Drawing.Color.White;
+            this.lblComputerAction.Location = new System.Drawing.Point(644, 306);
+            this.lblComputerAction.Name = "lblComputerAction";
+            this.lblComputerAction.Size = new System.Drawing.Size(0, 28);
+            this.lblComputerAction.TabIndex = 20;
+            this.lblComputerAction.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // GameForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.ClientSize = new System.Drawing.Size(1189, 653);
+            this.ClientSize = new System.Drawing.Size(1189, 499);
+            this.Controls.Add(this.lblComputerAction);
             this.Controls.Add(this.imgComputerFragments);
             this.Controls.Add(this.imgHumanFragments);
             this.Controls.Add(this.imgComputerWeapon);
@@ -303,9 +320,9 @@
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.btnPlayAgain);
             this.Controls.Add(this.lblGameResult);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.progressBarQuickDraw);
             this.Controls.Add(this.lblShotsMessage);
-            this.Controls.Add(this.lblActionsMessage);
+            this.Controls.Add(this.lblHumanAction);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.lblComputerScore);
             this.Controls.Add(this.lblHumanScore);
@@ -315,9 +332,9 @@
             this.Controls.Add(this.btnShoot);
             this.Controls.Add(this.btnBlock);
             this.Controls.Add(this.btnReload);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "GameForm";
             this.Text = "0";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameForm_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.imgHumanWeapon)).EndInit();
@@ -340,9 +357,9 @@
         private Label lblHumanScore;
         private Label lblComputerScore;
         private Button btnExit;
-        private Label lblActionsMessage;
+        private Label lblHumanAction;
         private Label lblShotsMessage;
-        private ProgressBar progressBar1;
+        private ProgressBar progressBarQuickDraw;
         private Label lblGameResult;
         private Button btnPlayAgain;
         private PictureBox pictureBox1;
@@ -351,5 +368,6 @@
         private PictureBox imgComputerWeapon;
         private PictureBox imgHumanFragments;
         private PictureBox imgComputerFragments;
+        private Label lblComputerAction;
     }
 }
