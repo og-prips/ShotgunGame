@@ -3,93 +3,98 @@ using System.Reflection;
 
 namespace ShotgunGame
 {
-    internal class Game
+    public static class Game
     {
-        public Human Human { get; set; }
-        public Computer Computer { get; set; }
+        private static bool _taskComplete;
 
-        public Player Winner
+        public static Human Human { get; set; }
+        public static Computer Computer { get; set; }
+
+        public static Player? Winner
         {
             get
             {
-                return checkForWinner(Human, Computer);
+                return GetWinner();
             }
         }
 
-        private Player? checkForWinner(Player playerOne, Player playerTwo)
+        private static Player? GetWinner()
         {
-            if (playerOne.Choice == Player.Action.Shoot && playerTwo.Choice == Player.Action.Reload ||
-                playerOne.Choice == Player.Action.Shotgun && playerTwo.Choice != Player.Action.Shotgun)
+            if (Human.Choice == Player.Action.Shoot && Computer.Choice == Player.Action.Reload ||
+                Human.Choice == Player.Action.Shotgun && Computer.Choice != Player.Action.Shotgun)
             {
-                return playerOne;
+                return Human;
             }
-            else if (playerTwo.Choice == Player.Action.Shoot && playerOne.Choice == Player.Action.Reload ||
-                     playerTwo.Choice == Player.Action.Shotgun && playerOne.Choice != Player.Action.Shotgun)
+            else if (Computer.Choice == Player.Action.Shoot && Human.Choice == Player.Action.Reload ||
+                     Computer.Choice == Player.Action.Shotgun && Human.Choice != Player.Action.Shotgun)
             {
-                return playerTwo;
+                return Computer;
+            }
+            else if (GameForm.IsQuickDraw)
+            {
+                if (_taskComplete && Human.HasShotQuickDraw) return Human;
+                else if (_taskComplete && !Human.HasShotQuickDraw) return Computer;
             }
 
             return null;
         }
 
-        public void PlayGame()
+        public static void PlayGame()
         {
             Computer.GenerateComputerChoice();
             CalculateShots(Human.Choice, Computer.Choice);
         }
 
-        public async void QuickDraw(ProgressBar progressBar)
+        public static async void QuickDraw(Panel progressBar)
         {
-            int countdown = 100;
+            int countdown = progressBar.Width;
+            var initialWidth = progressBar.Width;
+            _taskComplete = false;
 
             while (countdown >= 0)
             {
                 if (Human.HasShotQuickDraw)
                 {
-                    GameOver(Human);
                     break;
                 }
                 else
                 {
-                    progressBar.Value = countdown;
-                    countdown--;
-                    await Task.Delay(15);
+                    progressBar.Width = countdown;
+                    countdown -= initialWidth / 100;
+                    await Task.Delay(13);
                 }
 
-                if (countdown >= 66)
+                if (countdown >= (initialWidth / 3) * 2)
                 {
-                    progressBar.ForeColor = Color.Green;
+                    progressBar.BackColor = Color.Green;
                 }
-                else if (countdown >= 33)
+                else if (countdown >= initialWidth / 3)
                 {
-                    progressBar.ForeColor = Color.Yellow;
+                    progressBar.BackColor = Color.Yellow;
                 }
                 else
                 {
-                    progressBar.ForeColor = Color.Red;
+                    progressBar.BackColor = Color.Red;
                 }
             }
 
-            if (!Human.HasShotQuickDraw)
-            {
-                GameOver(Computer);
-            }
+            _taskComplete = true;
         }
 
-        public void GameOver(Player winner)
+        public static void GameOver(Player winner)
         {
             winner.Score += 1;
 
             ResetShots();
         }
 
-        private void ResetShots()
+        private static void ResetShots()
         {
             Human.Shots = 0;
             Computer.Shots = 0;
         }
 
-        private void CalculateShots(Enum playerChoice, Enum computerChoice)
+        private static void CalculateShots(Enum playerChoice, Enum computerChoice)
         {
             
             switch (Human.Choice)

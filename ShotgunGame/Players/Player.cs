@@ -12,6 +12,44 @@
             Shotgun
         }
 
+        public virtual Image? ImageWeapon
+        {
+            get
+            {
+                if (Choice == Action.Shoot)
+                {
+                    return Properties.Resources.shotgun;
+                }
+                else if (Choice == Action.Reload)
+                {
+                    return Properties.Resources.reload;
+                }
+                else if (Choice == Action.Block)
+                {
+                    return Properties.Resources.shield;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        public Image? ImageFragments
+        {
+            get
+            {
+                if (Choice == Action.Shoot)
+                {
+                    return Properties.Resources.ammunition;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
         public Action Choice { get; set; }
         public int Score { get; set; } = 0;
         //public string Name { get; set; } = String.Empty;
