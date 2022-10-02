@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ShotgunGame.Players
+﻿namespace ShotgunGame.Players
 {
     public sealed class Computer : Player
     {
@@ -33,28 +27,33 @@ namespace ShotgunGame.Players
             }
         }
 
-        public void GenerateComputerChoice()
+        public void GenerateChoice(Human human)
         {
             Random random = new Random();
 
-            if (ForceReload == true)
+            if (ForceReload)
             {
                 Choice = Action.Reload;
             }
+            else if (ShotgunAvailable())
+            {
+                Choice = Action.Shotgun;
+            }
+            else if (Shots == 0 && human.Shots == 0)
+            {
+                Choice = Action.Reload;
+            }
+            else if (Shots > 0 && human.Shots == 0)
+            {
+                Choice = Action.Shoot;
+            }
+            else if (Shots == 0)
+            {
+                Choice = (Action)random.Next(1, 3);
+            }
             else
             {
-                if (this.ShotgunAvailable())
-                {
-                    Choice = Player.Action.Shotgun;
-                }
-                else if (Shots == 0)
-                {
-                    Choice = (Player.Action)random.Next(1, 3);
-                }
-                else
-                {
-                    Choice = (Player.Action)random.Next(0, 3);
-                }
+                Choice = (Action)random.Next(0, 3);
             }
         }
     }

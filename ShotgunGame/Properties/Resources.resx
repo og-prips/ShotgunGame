@@ -130,6 +130,9 @@
   <data name="bullets" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\bullets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="one-bullet-bw" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\one-bullet-bw.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="bullets1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\bullets.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -138,5 +141,8 @@
   </data>
   <data name="ammunition" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Images\ammunition.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="one-bullet" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Images\one-bullet.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

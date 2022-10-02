@@ -2,7 +2,7 @@
 {
     public class Player
     {
-        private int _shots;
+        private int shots;
 
         public enum Action
         {
@@ -11,6 +11,8 @@
             Block,
             Shotgun
         }
+
+        //public Image[] ImageShots = new Image[3];        
 
         public virtual Image? ImageWeapon
         {
@@ -52,27 +54,23 @@
 
         public Action Choice { get; set; }
         public int Score { get; set; } = 0;
-        //public string Name { get; set; } = String.Empty;
 
         public int Shots
         {
             get
             {
-                return _shots;
+                return shots;
             }
             set
             {
-                _shots = value;
-                if (_shots <= 0) _shots = 0;
+                shots = value;
+                if (shots <= 0) shots = 0;
             }
         }
 
         public bool ShotgunAvailable()
         {
-            if (Shots >= 3)
-            {
-                return true;
-            }
+            if (Shots >= 3) return true;
 
             return false;
         }

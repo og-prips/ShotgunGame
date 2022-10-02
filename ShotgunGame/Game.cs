@@ -1,24 +1,14 @@
 ﻿using ShotgunGame.Players;
-using System.Reflection;
 
 namespace ShotgunGame
 {
-    public static class Game
+    public class Game
     {
-        private static bool _taskComplete;
+        public Human Human { get; set; }
+        public Computer Computer { get; set; }
+        public Player? Winner;
 
-        public static Human Human { get; set; }
-        public static Computer Computer { get; set; }
-
-        public static Player? Winner
-        {
-            get
-            {
-                return GetWinner();
-            }
-        }
-
-        private static Player? GetWinner()
+        public Player? GetWinner()
         {
             if (Human.Choice == Player.Action.Shoot && Computer.Choice == Player.Action.Reload ||
                 Human.Choice == Player.Action.Shotgun && Computer.Choice != Player.Action.Shotgun)
@@ -30,73 +20,31 @@ namespace ShotgunGame
             {
                 return Computer;
             }
-            else if (GameForm.IsQuickDraw)
-            {
-                if (_taskComplete && Human.HasShotQuickDraw) return Human;
-                else if (_taskComplete && !Human.HasShotQuickDraw) return Computer;
-            }
 
             return null;
         }
 
-        public static void PlayGame()
+        public void PlayGame()
         {
-            Computer.GenerateComputerChoice();
+            Computer.GenerateChoice(Human);
             CalculateShots(Human.Choice, Computer.Choice);
         }
 
-        public static async void QuickDraw(Panel progressBar)
-        {
-            int countdown = progressBar.Width;
-            var initialWidth = progressBar.Width;
-            _taskComplete = false;
-
-            while (countdown >= 0)
-            {
-                if (Human.HasShotQuickDraw)
-                {
-                    break;
-                }
-                else
-                {
-                    progressBar.Width = countdown;
-                    countdown -= initialWidth / 100;
-                    await Task.Delay(13);
-                }
-
-                if (countdown >= (initialWidth / 3) * 2)
-                {
-                    progressBar.BackColor = Color.Green;
-                }
-                else if (countdown >= initialWidth / 3)
-                {
-                    progressBar.BackColor = Color.Yellow;
-                }
-                else
-                {
-                    progressBar.BackColor = Color.Red;
-                }
-            }
-
-            _taskComplete = true;
-        }
-
-        public static void GameOver(Player winner)
+        public void GameOver(Player winner)
         {
             winner.Score += 1;
 
             ResetShots();
         }
 
-        private static void ResetShots()
+        private void ResetShots()
         {
             Human.Shots = 0;
             Computer.Shots = 0;
         }
 
-        private static void CalculateShots(Enum playerChoice, Enum computerChoice)
+        private void CalculateShots(Enum playerChoice, Enum computerChoice)
         {
-            
             switch (Human.Choice)
             {
                 case Player.Action.Shoot:
